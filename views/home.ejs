@@ -1,0 +1,68 @@
+
+   <base href="/">  
+   <link rel="stylesheet" type="text/css" href="/css/home.css">
+   <link rel="stylesheet" type="text/css" href="/css/chat_box.css">
+
+<div id="home-container">
+    <section id="feed-posts">
+            <h4>Posts</h4>
+            <% if(locals.user){ %>
+            <form action="/posts/create" id="new-post-form" method="POST">
+                <textarea name="content" cols="30" rows="3" placeholder="Type Here..." required></textarea>
+                <input type="submit" value="Post">
+            </form>
+            <% } %>
+        
+            <div id="posts-list-container">
+                <ul>
+                    <% for(post of posts){ %>
+                        
+                    <%- include('_post') -%>
+                        
+                    <%} %>
+                </ul>
+            </div>
+        </section>
+        
+        
+        <section id="user-friends">
+            <h4>Friends</h4>
+            <% for(u of all_users){%>
+                <p>
+                    <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+                </p>
+            <% } %>
+        </section>
+        <%- include('_chat_box') -%>
+</div>
+
+ <script
+  src="https://code.jquery.com/jquery-3.5.1.js"
+  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+  crossorigin="anonymous"></script> 
+
+<!-- importing this script for creating the comments -->
+<!-- importing this script for creating the comments -->
+<script src="/js/home_comments.js" ></script>
+<script src="/js/home_posts.js"></script>
+
+
+
+
+ <!-- importing script for socket.io from cdnjs.com to be used as observer for chatting -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js"></script>
+<!-- importing  script to be used as user to chat and above script i.e observer will listen to it -->
+<script src="/js/chat_engine.js"></script>
+
+<% if (locals.user){ %>
+    <script>
+        new ChatEngine('user-chat-box', '<%= locals.user.email%>')
+    </script>
+ <% } %>
+ <script src="js/toggle_likes.js"></script>
+ <script>
+    $('.toggle-like-button').each(function(){
+        let self = this;
+        let toggleLike = new ToggleLike(self);
+    });
+</script>
