@@ -4,7 +4,7 @@ const commentsMailer = require('../mailers/comments_mailer');
 const Like = require('../models/like');
 const queue = require('../config/kue');
 const commentEmailWorker = require('../workers/comment_email_worker');
-module.exports.create = async function(req, res){
+module.exports.createComment = async function(req, res){
 
     try{
         let post = await Post.findById(req.body.post);
